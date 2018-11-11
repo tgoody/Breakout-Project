@@ -9,8 +9,9 @@ class Ball {
 
 
   Ball(float x_, float y_, float d_){
-    position.set(x_,y_);
+    position = new PVector(150,height-50);
     diameter = d_;
+    velocity = new PVector(2, -2);
   }
   
   void update(){
@@ -76,12 +77,30 @@ class Ball {
       float DeltaY = position.y - max(b.tl.y, min(position.y, b.tl.y + b.wh.y));
       boolean colliding = (DeltaX * DeltaX + DeltaY * DeltaY) < (diameter/2 * diameter/2);
         
+      colliding = position.x + (int)diameter/2 > b.tl.x &&
+            position.y + (int)diameter/2 > b.tl.y &&
+            position.x - (int)diameter/2 < b.wh.x &&
+            position.y - (int)diameter/2 < b.wh.y;
+        
+        
       if(colliding){
+        
+         println(b.tl.x + ", " + b.tl.y + " - " + b.wh.x + ", " + b.wh.y);
         
         if(!b.wall){
          b.alive = false; 
          score++;
         }
+        
+        if(temp.x < b.wh.x && temp.x > b.tl.x){
+         velocity.set(velocity.x, -velocity.y);
+        }
+        
+        if(temp.y < b.wh.y && temp.y > b.tl.y){
+         velocity.set(-velocity.x, velocity.y);
+        }
+        
+        
         
       }
     }      

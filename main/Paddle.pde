@@ -19,7 +19,7 @@ class Paddle {
   void update(Ball b){
     //If the flag is set, update that direction
     //this.draw();
-    this.move();
+    position.set(position.x + this.move(), position.y);
     this.draw();
     
     
@@ -44,6 +44,8 @@ class Paddle {
   boolean moveable(Ball b){
     //Check that the distance between the centers 
     //  is less than the sum of the radii.
+    
+    return true;
   }
 
 
@@ -56,20 +58,20 @@ class Paddle {
   }
   void keyPressed(){
     if(key == CODED){
-      if(keyCode == RIGHT){
+      if(keyCode == 39){
         movingRight = true;
       }
-      if(keyCode == LEFT){
+      if(keyCode == 37){
         movingLeft = true;
       }
     }
   }
   void keyReleased(){
     if(key == CODED){
-      if(keyCode == RIGHT){
+      if(keyCode == 39){
         movingRight = false;
       }
-      if(keyCode == LEFT){
+      if(keyCode == 37){
         movingLeft = false;
       }
     }

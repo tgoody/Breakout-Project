@@ -14,6 +14,8 @@ class Box {
    //Set the wall boolean
    //Set the src x and y positions from the pimage
    //  Make sure to subtract the pimg's width and height to stay within the image
+   tl = new PVector();
+   wh = new PVector();
    
    tl.set(x1,y1);
    wh.set(x2,y2);
@@ -25,6 +27,8 @@ class Box {
    
    if(!alive){return;}
    
+   
+   //println(tl.x + ", " + tl.y + " - " + wh.x + ", " + wh.y);
    rect(tl.x, tl.y, wh.x, wh.y);
    
    //If it's alive, draw the rect

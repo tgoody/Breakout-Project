@@ -15,13 +15,13 @@ class GameState {
   float h;
   
 
-  GameState(int w_, int h_, String glsl, String texture){
+  GameState(int w_, int h_){
     //set variables
     //create ball, paddle, walls, level
     w = w_;
     h = h_;
     ball = new Ball(w/2, h/2, 10);
-    PVector starting = new PVector(w/2, 20);
+    PVector starting = new PVector(w/2, h+40);
     paddle = new Paddle(starting, 200);
     walls = makeWalls(pimg);
     level = level0();
@@ -33,20 +33,31 @@ class GameState {
     
     level = new Box[60];
     int i = 0;
+    float x = 0;
+    float y = 0;
     
     for(int vert = 0; vert < 6; vert++){
       for(int horiz = 0; horiz < 10; horiz++){
         
-        float x = horiz*12;
-        float y = vert*12;
+        x = (horiz*50) + 150;
+        y = (vert*50) + 200;
         
-        level[i] = new Box(x,y,x+10,y+10,false,pimg);
+        
+        
+        level[i] = new Box(x,y,x+45,y+45,false,pimg);
       
       
       
         i++;
       } 
     }
+    
+    
+    //for(Box box : level){
+     
+    //  println(box.tl.x + ", " + box.tl.y + " - " + box.wh.x + ", " + box.wh.y); //<>//
+      
+    //}
     
     return level;
   }
@@ -57,23 +68,35 @@ class GameState {
     ball.update();
     paddle.update(ball);
     collisions();
+    draw();
   }
   
   void collisions(){
     //collide walls, levels, and ball-paddle
+    
+    ballBoxCollisions(walls);
+    ballBoxCollisions(level);
+    ball.collide_circle(paddle);
+    
   }
   
   void draw(){
     //draw shader, draw boxes, check/print score/win
+    
+    
+    boxArrDraw(walls);
+    boxArrDraw(level);
+    ball.draw();
+    
   }
   
   Box[] makeWalls(PImage img){
     
      walls = new Box[3];
     
-     walls[0] = new Box(0, 0, 20, h, true, img);
-     walls[1] = new Box(20, 0, w-20, 20, true, img);
-     walls[2] = new Box(w-20, 0, w, h, true, img);
+     walls[0] = new Box(0, 0, 100, h, true, img);
+     walls[1] = new Box(100, 0, w-100, 100, true, img);
+     walls[2] = new Box(w-100, 0, w, h, true, img);
 
 
     return walls;
@@ -81,7 +104,11 @@ class GameState {
   
 
   void ballBoxCollisions(Box[] boxes){
-    //collide for each in an array of boxes
+    for(Box box : boxes){
+      
+      ball.collide_box(box);
+      
+    }
   }
 
   void boxArrDraw(Box[] boxes){
