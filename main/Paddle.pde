@@ -6,10 +6,10 @@ class Paddle {
   //set the yoffset
   
   PVector position;
-  int diameter;
+  float diameter;
   boolean movingRight;
   boolean movingLeft;
-  float speed;
+  float speed = 5;
   float yoffset;
   
   Paddle(PVector p_, float d_){
@@ -19,10 +19,26 @@ class Paddle {
   void update(Ball b){
     //If the flag is set, update that direction
     //this.draw();
+    this.move();
+    this.draw();
+    
+    
+    
   }
   
   float move(){
-    //return the change in x based off of movement flags
+    if(movingRight && !movingLeft){
+      //position.add(5,0);
+      return 5.0f;
+    }
+    
+    if(movingLeft && !movingRight){
+      //position.add(-5,0);
+      return -5.0f;
+    }
+    
+    return 0.0f;
+    
   }
 
   boolean moveable(Ball b){
@@ -36,7 +52,7 @@ class Paddle {
     //Add the radius to the y position and subtract the y offset. 
     //ellipse(p.x, p.y, d,d);
     
-    arc(400,0,100,50, PI, TWO_PI, CHORD);
+    arc(position.x,position.y,diameter,diameter, PI, TWO_PI, CHORD);
   }
   void keyPressed(){
     if(key == CODED){

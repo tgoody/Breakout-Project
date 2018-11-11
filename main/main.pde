@@ -14,7 +14,7 @@ void setup(){
 void init(){
   w = 800;
   h = 800;
-  //gs = new GameState();
+  gs = new GameState(w, h, "glsl", "texture");
 }
 
 void draw() {
@@ -40,6 +40,9 @@ void keyPressed(){
   //call the GameState's keyPressed command
   //press 'p' to pause/unpause (via toggle())
   //if(key == '`') saveFrame("screenshots/screenshot-####.png");
+  
+  gs.keyPressed();
+  
 }
 void keyReleased(){
   //call the GameState's keyReleased command
