@@ -13,6 +13,7 @@ class GameState {
   Box[] level;
   float w;
   float h;
+  String message;
   
 
   GameState(int w_, int h_){
@@ -20,7 +21,7 @@ class GameState {
     //create ball, paddle, walls, level
     w = w_;
     h = h_;
-    ball = new Ball(w/2, h/2, 10);
+    ball = new Ball(200, height-100, 15);
     PVector starting = new PVector(w/2, h+40);
     paddle = new Paddle(starting, 200);
     walls = makeWalls(pimg);
@@ -39,12 +40,12 @@ class GameState {
     for(int vert = 0; vert < 6; vert++){
       for(int horiz = 0; horiz < 10; horiz++){
         
-        x = (horiz*50) + 150;
-        y = (vert*50) + 200;
+        x = (horiz*45) + 175;
+        y = (vert*45) + 225;
         
         
         
-        level[i] = new Box(x,y,x+45,y+45,false,pimg);
+        level[i] = new Box(x,y,x+40,y+40,false,pimg);
       
       
       
@@ -68,6 +69,7 @@ class GameState {
     ball.update();
     paddle.update(ball);
     collisions();
+    checkWin();
     draw();
   }
   
@@ -105,8 +107,10 @@ class GameState {
 
   void ballBoxCollisions(Box[] boxes){
     for(Box box : boxes){
-      
       ball.collide_box(box);
+      if(ball.hateCollisions){
+        return;
+      }
       
     }
   }
@@ -133,12 +137,20 @@ class GameState {
     
 
     if(!hasAlive(level)){
-     //print you win 
-     return;
+      message = ("You win!");
+      textSize(30);
+      fill(255,255,0);
+      text(message, 345, 200);
+      fill(255);
+      return;
     }
     
     else{
-      //print scoore
+      message = ("Score = " + (int)gs.ball.score);
+      textSize(30);
+      fill(255,255,0);
+      text(message, 345, 200);
+      fill(255);
       return;
     }
     

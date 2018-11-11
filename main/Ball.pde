@@ -6,12 +6,13 @@ class Ball {
   float diameter;
   float speed;
   float score;
-
+  boolean hateCollisions;
 
   Ball(float x_, float y_, float d_){
-    position = new PVector(150,height-50);
+    position = new PVector(x_,y_);
     diameter = d_;
-    velocity = new PVector(2, -2);
+    velocity = new PVector(1, -3);
+    speed = 4;
   }
   
   void update(){
@@ -33,13 +34,21 @@ class Ball {
         PVector r;
         PVector n;
         n = PVector.sub(position, pad.position);
+        
+        //println("n before normalize: " + n.x + ", " + n.y);
         n.normalize();
+        //println("n after normalize: " + n.x + ", " + n.y);
+        println();
         
         float temp = 2 * PVector.dot(velocity,n);
-        PVector.mult(n,temp);
+        n.mult(temp);
+        //println("n after mult: " + n.x + ", " + n.y);
         r = PVector.sub(velocity, n);
-      
+        //println("r: " + r.x + ", " + r.y);
+        r.normalize();
         velocity = PVector.mult(r,speed);
+        //println("velocity: " + velocity.x + ", " + velocity.y);
+
       
       }
   }
@@ -66,7 +75,7 @@ class Ball {
           //Use the same reflection, assume the box is a square
           //then treat the box as a circle
           
-          
+    hateCollisions = false;      
           
     if(b.alive){
       
@@ -85,22 +94,24 @@ class Ball {
         
       if(colliding){
         
-         println(b.tl.x + ", " + b.tl.y + " - " + b.wh.x + ", " + b.wh.y);
-        
+         //println(b.tl.x + ", " + b.tl.y + " - " + b.wh.x + ", " + b.wh.y);
+        hateCollisions = true;
         if(!b.wall){
          b.alive = false; 
          score++;
         }
         
-        if(temp.x < b.wh.x && temp.x > b.tl.x){
+        if(temp.x <= b.wh.x && temp.x >= b.tl.x){
          velocity.set(velocity.x, -velocity.y);
+         //println("velocity: " + velocity.x + ", " + velocity.y);
         }
         
-        if(temp.y < b.wh.y && temp.y > b.tl.y){
+        else if(temp.y <= b.wh.y && temp.y >= b.tl.y){
          velocity.set(-velocity.x, velocity.y);
+         //println("velocity: " + velocity.x + ", " + velocity.y);
         }
         
-        
+        else{velocity.set(-velocity.x, velocity.y);}
         
       }
     }      

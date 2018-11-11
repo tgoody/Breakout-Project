@@ -5,9 +5,24 @@ controlP5.Button playButton;
 GameState gs;
 int w, h;
 boolean playing;
+String message;
 
 void setup(){
+  frameRate(60);
   size(800,800);
+  
+  controlP5 = new ControlP5(this);
+  playButton = playButton(); /*controlP5.addButton("PLAY")
+                                  .setSize(100,50)
+                                  .setPosition(width/2,height/2)
+                                  .setColorBackground(color(0,153,0))
+                                  .setColorForeground(color(0,0,250));*/
+
+
+ 
+ //message = controlP5.addTextlabel("message").setText("You win!") //Max steps slider
+                          //.setPosition(350,400).setSize(50,50);
+
   doinit();
 }
 
@@ -16,18 +31,42 @@ void doinit(){
   w = 800;
   h = 800;
   gs = new GameState(w, h);
-  controlP5 = new ControlP5(this);
-  playing = true;
+  
+  toggle();
 }
 
 void draw() {
   
-  background(150);
+  background(0);
+  
+  
+  
+
+  
+  
+  
   
   if(playing){
     gs.update();
     gs.draw();
+    fill(255);
   }
+  
+  else if(!playing){
+    message = "Press P or click play to continue";
+    textSize(30);
+    fill(255,255,0);
+    text(message, 170, 200);
+    fill(255);
+    gs.draw();
+    
+    if(playButton.isPressed()){
+      toggle();
+    }
+    
+  }
+    
+  
   //reset background
   //if the game is playing, update and draw, otherwise just draw 
   //if the ball position exceeds the window height, call init() (to reset)
@@ -40,21 +79,19 @@ void draw() {
   
 }
 
-Button playButton(){
+controlP5.Button playButton(){
   //Create a Button, return it.
   //Use createFont, ControlFont, and setFont 
   //Center the font by subtracting half of the size from the position
   
-  
-    PFont pfont = createFont("Arial",20,true); // use true/false for smooth/no-smooth
-    ControlFont font = new ControlFont(pfont,241);
+
     
     playButton = controlP5.addButton("PLAY")
-                                  .setSize(100,50)
-                                  .setPosition(5,20)
-                                  .setColorBackground(color(0,153,0))
-                                  .setColorForeground(color(0,0,250))
-                                  .setFont(font);
+                                  .setSize(400,100)
+                                  .setPosition(200,350)
+                                  
+                                  .setColorBackground(color(255,0,0));
+                                  
     return playButton;
   
   
@@ -65,7 +102,13 @@ Button playButton(){
 void toggle(){
   //Flip the value of the boolean
 
+  
   playing = !playing;
+  if(playing){
+    playButton.hide();
+  }
+  
+  else{playButton.show();}
 
   //If the game is playing, hide the button, otherwise show it
   //use the button's hide and show functions
@@ -76,10 +119,20 @@ void keyPressed(){
   //press 'p' to pause/unpause (via toggle())
   //if(key == '`') saveFrame("screenshots/screenshot-####.png");
 
+  if(key == 'p'){
+    toggle(); 
+    return;
+  }
+
+  if(key == '`'){
+    
+    saveFrame("screenshots/screenshot-####.png");
+    return;
+  }
+  
   gs.keyPressed();
   
   
-  println(keyCode);
   
 }
 void keyReleased(){
