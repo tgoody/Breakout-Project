@@ -38,7 +38,7 @@ class Ball {
         //println("n before normalize: " + n.x + ", " + n.y);
         n.normalize();
         //println("n after normalize: " + n.x + ", " + n.y);
-        println();
+        //println();
         
         float temp = 2 * PVector.dot(velocity,n);
         n.mult(temp);

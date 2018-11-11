@@ -11,10 +11,12 @@ class Paddle {
   boolean movingLeft;
   float speed = 5;
   float yoffset;
+  boolean moving;
   
   Paddle(PVector p_, float d_){
     position = p_;
     diameter = d_;
+    moving = false;
   }
   void update(Ball b){
     //If the flag is set, update that direction
@@ -27,14 +29,19 @@ class Paddle {
   }
   
   float move(){
-    if(movingRight && !movingLeft){
+    if(movingRight && !movingLeft && !moving){
       //position.add(5,0);
-      return 5.0f;
+      moving = true;
+      return 20.0f;
+      
     }
     
-    if(movingLeft && !movingRight){
+    if(movingLeft && !movingRight && !moving){
       //position.add(-5,0);
-      return -5.0f;
+      moving = true;
+      return -20.0f;
+      
+
     }
     
     return 0.0f;
@@ -60,6 +67,7 @@ class Paddle {
     if(key == CODED){
       if(keyCode == 39){
         movingRight = true;
+        
       }
       if(keyCode == 37){
         movingLeft = true;
@@ -70,9 +78,11 @@ class Paddle {
     if(key == CODED){
       if(keyCode == 39){
         movingRight = false;
+        moving = false;
       }
       if(keyCode == 37){
         movingLeft = false;
+        moving = false;
       }
     }
   }

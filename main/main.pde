@@ -29,6 +29,7 @@ void setup(){
 
 void doinit(){
   rectMode(CORNERS);
+  imageMode(CORNERS);
   w = 800;
   h = 800;
   gs = new GameState(w, h);
@@ -61,9 +62,7 @@ void draw() {
   else if(!playing){
     message = "Press P or click play to continue";
     textSize(30);
-    fill(255,255,0);
     text(message, 170, 200);
-    fill(255);
     gs.draw();
     
     if(playButton.isPressed()){

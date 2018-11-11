@@ -18,17 +18,18 @@ class GameState {
     //set variables
     //create ball, paddle, walls, level
     pimg = loadImage("TexturesCom_MetalBare0183_1_M.jpg");
-    pimg.resize(800,800);
+    //pimg.resize(800,800);
+    
     w = w_;
     h = h_;
     ball = new Ball(200, height-100, 15);
     PVector starting = new PVector(w/2, h+40);
     paddle = new Paddle(starting, 200);
-    walls = makeWalls();
-    level = level0();
+    walls = makeWalls(pimg);
+    level = level0(pimg);
   }
 
-  Box[] level0(){
+  Box[] level0(PImage pimg){
     //Create a grid of boxes
     //6 x 10 boxes
     
@@ -45,7 +46,7 @@ class GameState {
         
         
         
-        level[i] = new Box(x,y,x+40,y+40,false);
+        level[i] = new Box(x,y,x+40,y+40,false,pimg);
       
       
       
@@ -92,13 +93,13 @@ class GameState {
     
   }
   
-  Box[] makeWalls(){
+  Box[] makeWalls(PImage pimg){
     
      walls = new Box[3];
     
-     walls[0] = new Box(0, 0, 100, h, true);
-     walls[1] = new Box(100, 0, w-100, 100, true);
-     walls[2] = new Box(w-100, 0, w, h, true);
+     walls[0] = new Box(0, 0, 100, h, true,pimg);
+     walls[1] = new Box(100, 0, w-100, 100, true,pimg);
+     walls[2] = new Box(w-100, 0, w, h, true,pimg);
 
 
     return walls;
