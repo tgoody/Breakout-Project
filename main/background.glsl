@@ -1,27 +1,23 @@
-// background.glsl
-uniform vec2 resolution;
-uniform vec2 mouse;
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+#extension GL_OES_standard_derivatives : enable
+
 uniform float time;
+uniform vec2 mouse;
+uniform vec2 resolution;
 
-vec4 circle(vec2 center, float s){
-	//Thid draws a circle with a glowing falloff
-  vec2 p = ( gl_FragCoord.xy / resolution.xy ) * 2.0 - 1.0;
-	p -= center * 2.0 - 1.0;
-	p.x *= resolution.x/resolution.y;
-	float v =  s / length(p);
-	return vec4(v, v, v, 1.0);
-}
+void main( void ) {
 
-void main() {
-  // gl_FragCoord
-	vec2 fc = gl_FragCoord.xy / resolution;
+	vec2 position = ( gl_FragCoord.xy / resolution.xy ) + mouse / 4.0;
 
-	//I created a sine function with different frequencies and amplitudes
-	//Anything under that sign function, I drew some redshifted noise function
-	//Make whatever you like, juse use this circle function to color the ball
-  vec4 color = vec4(0);
-  color += circle(mouse, 0.1);
+	float color = 0.0;
+	color += sin( position.x * cos( time / 15.0 ) * 80.0 ) + cos( position.y * cos( time / 15.0 ) * 10.0 );
+	color += sin( position.y * sin( time / 10.0 ) * 40.0 ) + cos( position.x * sin( time / 25.0 ) * 40.0 );
+	color += sin( position.x * sin( time / 5.0 ) * 10.0 ) + sin( position.y * sin( time / 35.0 ) * 80.0 );
+	color *= sin( time / 10.0 ) * 0.5;
 
-	//This is the output, sort of like return color
-	gl_FragColor = color;
+	gl_FragColor = vec4( vec3( color, color * 0.5, sin( color + time / 3.0 ) * 0.75 ), 1.0 );
+
 }

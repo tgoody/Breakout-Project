@@ -82,15 +82,12 @@ class Ball {
       PVector temp;
       temp = PVector.add(position,velocity);
       
-      float DeltaX = position.x - max(b.tl.x, min(position.x, b.tl.x + b.wh.x));
-      float DeltaY = position.y - max(b.tl.y, min(position.y, b.tl.y + b.wh.y));
+      float DeltaX = position.x - max(b.tl.x, min(position.x, b.wh.x));
+      float DeltaY = position.y - max(b.tl.y, min(position.y, b.wh.y));
       boolean colliding = (DeltaX * DeltaX + DeltaY * DeltaY) < (diameter/2 * diameter/2);
         
-      colliding = position.x + (int)diameter/2 > b.tl.x &&
-            position.y + (int)diameter/2 > b.tl.y &&
-            position.x - (int)diameter/2 < b.wh.x &&
-            position.y - (int)diameter/2 < b.wh.y;
-        
+  
+
         
       if(colliding){
         

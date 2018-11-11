@@ -2,10 +2,8 @@ class GameState {
   //create a PShader (fragment shader) and PImage (texture)
   //create some helper variables (s,w,h)
   //time variable
-  int time;
   //Declare a: Ball, Paddle, Box[] walls, and Box[] level
   
-  PShader shader;
   PImage pimg;
   Paddle paddle;
   Ball ball;
@@ -19,12 +17,14 @@ class GameState {
   GameState(int w_, int h_){
     //set variables
     //create ball, paddle, walls, level
+    pimg = loadImage("TexturesCom_MetalBare0183_1_M.jpg");
+    pimg.resize(800,800);
     w = w_;
     h = h_;
     ball = new Ball(200, height-100, 15);
     PVector starting = new PVector(w/2, h+40);
     paddle = new Paddle(starting, 200);
-    walls = makeWalls(pimg);
+    walls = makeWalls();
     level = level0();
   }
 
@@ -45,7 +45,7 @@ class GameState {
         
         
         
-        level[i] = new Box(x,y,x+40,y+40,false,pimg);
+        level[i] = new Box(x,y,x+40,y+40,false);
       
       
       
@@ -92,13 +92,13 @@ class GameState {
     
   }
   
-  Box[] makeWalls(PImage img){
+  Box[] makeWalls(){
     
      walls = new Box[3];
     
-     walls[0] = new Box(0, 0, 100, h, true, img);
-     walls[1] = new Box(100, 0, w-100, 100, true, img);
-     walls[2] = new Box(w-100, 0, w, h, true, img);
+     walls[0] = new Box(0, 0, 100, h, true);
+     walls[1] = new Box(100, 0, w-100, 100, true);
+     walls[2] = new Box(w-100, 0, w, h, true);
 
 
     return walls;
@@ -122,16 +122,6 @@ class GameState {
     }
     
   }
-
-  void doShaderStuff(){
-    //Update the time, pass the relevant uniform variables
-    
-    if(millis()%1000 == 0){
-     time++; 
-    }
-    
-    
-  }
   
   void checkWin(){
     
@@ -139,18 +129,14 @@ class GameState {
     if(!hasAlive(level)){
       message = ("You win!");
       textSize(30);
-      fill(255,255,0);
-      text(message, 345, 200);
-      fill(255);
+      text(message, 345, 200); 
       return;
     }
     
     else{
       message = ("Score = " + (int)gs.ball.score);
       textSize(30);
-      fill(255,255,0);
-      text(message, 345, 200);
-      fill(255);
+      text(message, 325, 200);
       return;
     }
     

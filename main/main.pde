@@ -6,10 +6,11 @@ GameState gs;
 int w, h;
 boolean playing;
 String message;
+PShader background;
 
 void setup(){
   frameRate(60);
-  size(800,800);
+  size(800,800,P2D);
   
   controlP5 = new ControlP5(this);
   playButton = playButton(); /*controlP5.addButton("PLAY")
@@ -31,6 +32,9 @@ void doinit(){
   w = 800;
   h = 800;
   gs = new GameState(w, h);
+  background = new PShader();
+  background = loadShader("background.glsl"); //http://glslsandbox.com/e#50147.1
+  
   
   toggle();
 }
@@ -40,8 +44,10 @@ void draw() {
   background(0);
   
   
-  
-
+  background.set("mouse",gs.ball.position.x/250, gs.ball.position.y/250);
+  background.set("time", millis()/1000.0);
+  background.set("resolution", (float)width, (float)height);
+  filter(background);
   
   
   
